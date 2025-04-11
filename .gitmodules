@@ -1,0 +1,3 @@
+[submodule "todo-app/api/todo-app-api"]
+	path = todo-app/api/todo-app-api
+	url = git@github.com:kzm-dev07/todo-app-api.git
