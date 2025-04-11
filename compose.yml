@@ -19,7 +19,7 @@ services:
     networks:
       - kzm_app_network
 
-  todo-nginx:
+  todo-app-api-nginx:
     build:
       context: ./todo-app/nginx
       dockerfile: ./Dockerfile
