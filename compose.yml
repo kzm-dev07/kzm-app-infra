@@ -1,36 +1,36 @@
+name: kzm
 services:
-
-  todo-api:
+  todo-app-api:
     build:
-      context: ./todo-api/php
+      context: ./todo-app/api
       dockerfile: ./Dockerfile
       target: ${DOCKER_TARGET:-dev} # 環境変数で開発/本番を切り替え
     container_name: kzm-app-todo-api
     # volumes:
-    # - ./todo-api/php/todo-app-api:/var/www/app/
-    # - ./todo-api/php/script/startup.sh:/var/tmp/startup.sh
+    # - ./todo-app/api/todo-app-api:/var/www/app/
+    # - ./todo-app/api/script/startup.sh:/var/tmp/startup.sh
     ports:
       - 9000:9000
     working_dir: /var/www/app
     depends_on:
       - api-mysql
     env_file:
-      - ./todo-api/php/todo-app-api/.env.docker
+      - ./todo-app/api/todo-app-api/.env.docker
     networks:
       - kzm_app_network
 
   todo-nginx:
     build:
-      context: ./todo-api/nginx
+      context: ./todo-app/nginx
       dockerfile: ./Dockerfile
     container_name: kzm-app-todo-api-nginx
     ports:
       - 80:80
     working_dir: /var/www
     depends_on:
-      - todo-api
+      - todo-app-api
     environment:
-      FASTCGI_PASS: todo-api:9000
+      FASTCGI_PASS: todo-app-api:9000
     networks:
       - kzm_app_network
 
