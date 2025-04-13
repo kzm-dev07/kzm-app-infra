@@ -66,13 +66,25 @@ services:
     networks:
       - kzm_app_network
 
+  keycloak-nginx:
+    build:
+      context: ./keycloak/nginx
+      dockerfile: Dockerfile
+    container_name: kzm-app-keycloak-nginx
+    ports:
+      - 8081:8081
+    depends_on:
+      - keycloak
+    environment:
+      - PROXY_PASS=http://keycloak:8080
+    networks:
+      - kzm_app_network
+
   keycloak:
     build:
       context: ./keycloak/
       dockerfile: Dockerfile
     container_name: kzm-app-keycloak
-    ports:
-      - 8080:8080
     command:
       - start-dev
     depends_on:
@@ -80,13 +92,14 @@ services:
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
-      - KC_HOSTNAME=http://localhost:8080/
+      - KC_HOSTNAME=http://localhost:8081
       - KC_DB=mysql
       - KC_DB_URL_HOST=keycloak-mysql
       - KC_DB_URL_PORT=3306
       - KC_DB_URL_DATABASE=keycloak
       - KC_DB_USERNAME=root
       - KC_DB_PASSWORD=root
+      - KC_PROXY_HEADERS=xforwarded
     networks:
       - kzm_app_network
 
