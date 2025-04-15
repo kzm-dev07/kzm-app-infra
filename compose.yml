@@ -9,8 +9,6 @@ services:
     # volumes:
     # - ./todo-app/api/todo-app-api:/var/www/app/
     # - ./todo-app/api/script/startup.sh:/var/tmp/startup.sh
-    ports:
-      - 9000:9000
     working_dir: /var/www/app
     depends_on:
       - api-mysql
