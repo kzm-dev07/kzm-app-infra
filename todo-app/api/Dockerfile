@@ -22,6 +22,8 @@ FROM base AS dev
 
 RUN composer install
 
+RUN php artisan config:clear
+
 # 権限の設定
 RUN chown -R www-data:www-data /var/www \
   && chmod -R 755 /var/www/app/storage
@@ -30,6 +32,9 @@ RUN chown -R www-data:www-data /var/www \
 FROM base AS prd
 
 RUN composer install --no-dev --optimize-autoloader
+
+RUN php artisan config:clear \
+  && php artisan config:cache
 
 # 権限の設定
 RUN chown -R www-data:www-data /var/www \
