@@ -36,6 +36,8 @@ RUN composer install --no-dev --optimize-autoloader
 RUN php artisan config:clear \
   && php artisan config:cache
 
+COPY ./todo-app-api/.env.example /var/www/app/.env
+
 # 権限の設定
 RUN chown -R www-data:www-data /var/www \
   && chmod -R 755 /var/www/app/storage
